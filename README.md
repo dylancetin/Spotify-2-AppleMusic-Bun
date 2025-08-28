@@ -2,9 +2,84 @@
 
 Based on the work of [@simonschellaert](https://github.com/simonschellaert/spotify2am), [@therealmarius](https://github.com/therealmarius) and [@nf1973](https://github.com/nf1973)
 
-### Import your Spotify playlist to Apple Music **for free** using Python!
+### Import your Spotify playlist to Apple Music **for free** using Python or TypeScript/Bun!
 
-## Usage
+## TypeScript/Bun Version (New!)
+
+This repository now includes a TypeScript version built with Bun for better performance and modern JavaScript/TypeScript features with BATCHING.
+
+### Features
+
+- Convert Spotify playlists to Apple Music using CSV export from Exportify
+- ISRC-based matching for accurate track identification
+- Text-based fallback search when ISRC matching fails
+- Rate limiting to avoid API throttling
+- Detailed statistics and error reporting
+- Support for both single files and directory processing
+
+### Requirements
+
+- [Bun](https://bun.sh/) runtime
+- Apple Music authorization tokens
+- CSV files exported from [Exportify](https://watsonbox.github.io/exportify/)
+
+### Installation
+
+```bash
+bun install
+```
+
+### Usage
+
+#### Setting up authentication
+
+You need to provide Apple Music authentication tokens. You can either:
+
+1. Create `.dat` files with your tokens:
+   - `token.dat` - Apple Music Authorization (Bearer token)
+   - `media_user_token.dat` - Media user token
+   - `cookies.dat` - Session cookies
+   - `country_code.dat` - Country code (e.g., US, UK, FR)
+
+2. Set environment variables:
+   - `APPLE_AUTHORIZATION` - Apple Music Authorization (Bearer token)
+   - `APPLE_MEDIA_USER_TOKEN` - Media user token
+   - `APPLE_COOKIES` - Session cookies
+   - `APPLE_COUNTRY_CODE` - Country code
+
+#### Running the converter
+
+```bash
+# Convert a single playlist
+bun run src/cli.ts yourplaylist.csv
+
+# Convert all playlists in a directory
+bun run src/cli.ts /path/to/playlists/
+```
+
+#### Configuration
+
+You can configure the delay between API calls using the `DELAY` environment variable (default is 1 second):
+
+```bash
+DELAY=1.5 bun run src/cli.ts yourplaylist.csv
+```
+
+### Development
+
+#### Running tests
+
+```bash
+bun test
+```
+
+#### Type checking
+
+```bash
+bun run typecheck
+```
+
+## Original Python Version
 
 ### 1. Export your Spotify Playlist to a CSV file
 
@@ -69,3 +144,4 @@ The script to retrieve the Apple Music identifier for a Spotify song is quite ba
 **UPDATE**: Starting with version 2.0 the script will now first try to match the ISRC of the songs, then (in case of failure of the first method) it will try to match the title, artist and album name. This should help with the matching of the songs and reduce the number of missing songs.
 
 ##### This repository is under the [Apache License 2.0](LICENSE)
+
