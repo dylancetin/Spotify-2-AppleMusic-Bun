@@ -57,7 +57,7 @@ export async function convertPlaylist(
 
     await Promise.allSettled(
       batch.map(async (row, j) => {
-        const n = i * BATCH_SIZE + j + 1;
+        const n = i + j + 1;
         // Normalize fields
         const title = escapeApostrophes(row.title);
         const artist = escapeApostrophes(row.artist);
@@ -190,13 +190,11 @@ export async function convertPlaylist(
     // Add delay between tracks
 
     const finish = Date.now();
-    const delay = Math.max(0.5, config.delay);
+    const delay = Math.max(1.4, config.delay);
     if (delay > finish - now) {
       await new Promise((resolve) => setTimeout(resolve, finish - now));
     }
-    await new Promise((resolve) => setTimeout(resolve, delay * 1000));
   }
 
   return stats;
 }
-
