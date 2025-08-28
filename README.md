@@ -40,12 +40,14 @@ You need to provide Apple Music authentication tokens. You can either:
    - `media_user_token.dat` - Media user token
    - `cookies.dat` - Session cookies
    - `country_code.dat` - Country code (e.g., US, UK, FR)
+   - `batch_size.dat` - Batch size (e.g., 5)
 
 2. Set environment variables:
    - `APPLE_AUTHORIZATION` - Apple Music Authorization (Bearer token)
    - `APPLE_MEDIA_USER_TOKEN` - Media user token
    - `APPLE_COOKIES` - Session cookies
    - `APPLE_COUNTRY_CODE` - Country code
+   - `BATCH_SIZE` - Batch size
 
 #### Running the converter
 
@@ -144,4 +146,3 @@ The script to retrieve the Apple Music identifier for a Spotify song is quite ba
 **UPDATE**: Starting with version 2.0 the script will now first try to match the ISRC of the songs, then (in case of failure of the first method) it will try to match the title, artist and album name. This should help with the matching of the songs and reduce the number of missing songs.
 
 ##### This repository is under the [Apache License 2.0](LICENSE)
-
