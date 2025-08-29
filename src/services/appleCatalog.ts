@@ -71,7 +71,7 @@ export async function textSearch(
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
   } catch (error) {
-    console.error(`Error in text search: ${error}`);
+    console.error(`Error in text search: ${error}:`, error);
     throw error;
   }
 }
@@ -118,4 +118,3 @@ export async function searchByText(
 
   return { results: [] };
 }
-

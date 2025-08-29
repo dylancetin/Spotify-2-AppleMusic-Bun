@@ -8,7 +8,6 @@ import {
 import { searchByIsrc, getEquivalentSongId } from "../services/appleCatalog";
 import { getItunesId } from "../services/match";
 import { readCsv, appendLineToFile } from "../services/csv";
-import { escapeApostrophes } from "../utils/string";
 import { Stats } from "../domain/types";
 
 function derivePlaylistName(filePath: string): string {
@@ -59,12 +58,12 @@ export async function convertPlaylist(
       batch.map(async (row, j) => {
         const n = i + j + 1;
         // Normalize fields
-        const title = escapeApostrophes(row.title);
-        const artist = escapeApostrophes(row.artist);
-        const album = escapeApostrophes(row.album);
-        const albumArtist = escapeApostrophes(row.albumArtist);
-        const date = escapeApostrophes(row.date);
-        const isrc = escapeApostrophes(row.isrc);
+        const title = row.title;
+        const artist = row.artist;
+        const album = row.album;
+        const albumArtist = row.albumArtist;
+        const date = row.date;
+        const isrc = row.isrc;
 
         let trackId: string | null = null;
 
@@ -74,13 +73,8 @@ export async function convertPlaylist(
           if (results.length > 0) {
             // Apply matching heuristics
             for (const song of results) {
-              const isrcAlbumName = escapeApostrophes(
-                song.attributes.albumName.toLowerCase(),
-              );
-              const isrcArtistName = escapeApostrophes(
-                song.attributes.artistName.toLowerCase(),
-              );
-
+              const isrcAlbumName = song.attributes.albumName.toLowerCase();
+              const isrcArtistName = song.attributes.artistName.toLowerCase();
               if (
                 isrcAlbumName === album.toLowerCase() &&
                 isrcArtistName === albumArtist.toLowerCase()
@@ -119,7 +113,14 @@ export async function convertPlaylist(
           console.log(
             `No result found for ${title} | ${artist} | ${album} | ${date} with ${isrc}. Trying text based search...`,
           );
-          trackId = await getItunesId(session, title, artist, album, date);
+          trackId = await getItunesId(
+            session,
+            title,
+            artist,
+            album,
+            date,
+            config,
+          );
           if (trackId) {
             stats.textBased += 1;
           }
